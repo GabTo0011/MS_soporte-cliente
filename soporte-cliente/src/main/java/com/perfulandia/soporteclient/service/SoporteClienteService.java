@@ -17,25 +17,32 @@ public class SoporteClienteService {
 
     private final SoporteClienteRepository soporteClienteRepository;
 
+    // Obtener todos los soportes
     public List<SoporteClienteDTO> obtenerTodos() {
-        return soporteClienteRepository.findAll().stream().map(this::convertirADTO).collect(Collectors.toList());
+        return soporteClienteRepository.findAll().stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
+    // Guardar un soporte
     public SoporteClienteDTO guardar(SoporteClienteDTO dto) {
         SoporteCliente soporte = convertirAEntidad(dto);
         soporte = soporteClienteRepository.save(soporte);
         return convertirADTO(soporte);
     }
 
+    // Obtener soporte por ID
     public SoporteClienteDTO obtenerPorId(Integer id) {
         Optional<SoporteCliente> soporte = soporteClienteRepository.findById(id);
         return soporte.map(this::convertirADTO).orElse(null);
     }
 
+    // Eliminar soporte por ID
     public void eliminar(Integer id) {
         soporteClienteRepository.deleteById(id);
     }
 
+    // Convertir a DTO
     private SoporteClienteDTO convertirADTO(SoporteCliente soporte) {
         SoporteClienteDTO dto = new SoporteClienteDTO();
         dto.setId(soporte.getId());
@@ -48,6 +55,7 @@ public class SoporteClienteService {
         return dto;
     }
 
+    // Convertir de DTO a entidad
     private SoporteCliente convertirAEntidad(SoporteClienteDTO dto) {
         SoporteCliente soporte = new SoporteCliente();
         soporte.setId(dto.getId());
